@@ -139,7 +139,7 @@ async function handleRequest(request) {
   const finalStrings = [...uniqueStrings];
 
   // 生成 HTML 页面内容
-  const htmlContent = finalStrings.map(str => `<p>${str}</p>`).join('\n');
+  const htmlContent = finalStrings.map(str => `${str}`).join('\n');
 
   // return new Response(htmlContent, {
     //headers: { 'Content-Type': 'text/html' },
