@@ -139,16 +139,26 @@ async function handleRequest(request) {
   const finalStrings = [...uniqueStrings];
 
   // 生成 HTML 页面内容
-  const htmlContent = finalStrings.map(str => `${str}`).join('\n');
+  // const htmlContent = finalStrings.map(str => `<p>${str}</p>`).join('\n');
 
   // return new Response(htmlContent, {
     //headers: { 'Content-Type': 'text/html' },
   //});
+  // 拼接字符串为纯文本内容
+  const textContent = finalStrings.join('\n');
   
-  // 将 HTML 内容转换为 base64 编码
-const base64HtmlContent = btoa(unescape(encodeURIComponent(htmlContent)));
+  // 创建 TextEncoder 实例
+  const encoder = new TextEncoder();
+  
+  // 将文本内容转换为 Uint8Array
+  const uint8Array = encoder.encode(textContent);
+  
+  // 将 Uint8Array 转换为 base64 编码
+  const base64TextContent = btoa(String.fromCharCode.apply(null, uint8Array));
+  
+  return new Response(base64TextContent, {
+    headers: { 'Content-Type': 'text/plain' } // Update Content-Type to text/plain for base64 string
+  });
 
-return new Response(base64HtmlContent, {
-  headers: { 'Content-Type': 'text/plain' }, // Update Content-Type to text/plain for base64 string
-});
+
 }
