@@ -141,7 +141,14 @@ async function handleRequest(request) {
   // 生成 HTML 页面内容
   const htmlContent = finalStrings.map(str => `<p>${str}</p>`).join('\n');
 
-  return new Response(htmlContent, {
-    headers: { 'Content-Type': 'text/html' },
-  });
+  // return new Response(htmlContent, {
+    //headers: { 'Content-Type': 'text/html' },
+  //});
+  
+  // 将 HTML 内容转换为 base64 编码
+const base64HtmlContent = btoa(unescape(encodeURIComponent(htmlContent)));
+
+return new Response(base64HtmlContent, {
+  headers: { 'Content-Type': 'text/plain' }, // Update Content-Type to text/plain for base64 string
+});
 }
